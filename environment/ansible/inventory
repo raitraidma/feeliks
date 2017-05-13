@@ -1,0 +1,11 @@
+node01 ansible_host=172.16.66.11 ansible_user=vagrant ansible_port=22 ansible_ssh_private_key_file=~/.ssh/swarm
+node02 ansible_host=172.16.66.12 ansible_user=vagrant ansible_port=22 ansible_ssh_private_key_file=~/.ssh/swarm
+
+[all-swarm-nodes]
+node[01:02]
+
+[swarm-primary-manager]
+node01
+
+[swarm-workers]
+node02
