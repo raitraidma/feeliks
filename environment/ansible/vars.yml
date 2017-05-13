@@ -3,3 +3,10 @@
 master_ip:   "172.16.66.11"
 master_port: "2377"
 docker_user: "vagrant"
+
+maven_version: "3.5.0"
+maven_mirror_url_binaries: "http://archive.apache.org/dist/maven/maven-{{ maven_version|regex_replace('\\..*', '') }}/{{ maven_version }}/binaries"
+maven_package_filename: "apache-maven-{{ maven_version }}-bin.tar.gz"
+maven_download_dir: /opt
+maven_install_dir: /opt/maven
+maven_bin_path: "/usr/local/bin"

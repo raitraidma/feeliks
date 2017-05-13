@@ -1,0 +1,42 @@
+---
+
+- name: Make sure Maven paths exist
+  become: true
+  file:
+    dest: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ maven_download_dir }}"
+    - "{{ maven_install_dir }}"
+    - "{{ maven_bin_path }}"
+  tags:
+    - maven
+
+- name: Download Maven redistribution package
+  become: true
+  get_url:
+    url: "{{ maven_mirror_url_binaries }}/{{ maven_package_filename }}"
+    dest: "{{ maven_download_dir }}/{{ maven_package_filename }}"
+    timeout: 30
+  tags:
+    - maven
+
+- name: Install Maven
+  become: true
+  unarchive:
+    src: "{{ maven_download_dir }}/{{ maven_package_filename }}"
+    dest: "{{ maven_install_dir }}"
+    copy: false
+    creates: "{{ maven_install_dir }}/apache-maven-{{ maven_version }}"
+  tags:
+    - maven
+
+- name: Symlink installed Maven version to make it available to the system
+  become: true
+  file:
+    state: link
+    force: true
+    src: "{{ maven_install_dir }}/apache-maven-{{ maven_version }}/bin/mvn"
+    dest: "{{ maven_bin_path }}/mvn"
+  tags:
+    - maven
