@@ -50,3 +50,22 @@ docker service ps <service id>
 
 # Visit Documentation of Docker for more information: https://docs.docker.com/
 ```
+
+## Development
+For development you need to install:
+- [Java JDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+- [Maven](https://maven.apache.org/)
+- [Docker](https://www.docker.com/), if you want to build images in host machine
+
+### Build images in VM
+You do not have to install any additional software for that.
+```sh
+vagrant ssh node01
+cd /vagrant
+
+# Build all modules
+mvn clean package docker:build
+
+# Build one module
+mvn clean package docker:build -pl stt -am
+```

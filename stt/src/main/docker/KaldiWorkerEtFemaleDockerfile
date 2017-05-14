@@ -1,0 +1,13 @@
+FROM raitraidma/feeliks.stt.kaldi.worker:0.1
+
+ENV KALDI_MASTER_HOST speech_to_text_master
+ENV KALDI_MASTER_PORT 9000
+
+RUN git clone https://github.com/alumae/kaldi-gstreamer-server.git && \
+cd /kaldi-gstreamer-server && \
+git reset --hard e4ffc4609e824e003114f75d1510522c3ff19368 && \
+sed -i "s/post-processor/#post-processor/" /kaldi-gstreamer-server/estonian_worker.yaml && \
+echo "post-processor: perl -npe 'BEGIN {use IO::Handle; STDOUT->autoflush(1);} s/ ?\+C\+ ?//g; s/ ?\+D\+ ?/-/g;'" | tee -a /kaldi-gstreamer-server/estonian_worker.yaml;
+
+
+CMD cd /kaldi-gstreamer-server && python kaldigstserver/worker.py -u ws://$KALDI_MASTER_HOST:$KALDI_MASTER_PORT/worker/ws/speech -c estonian_worker.yaml

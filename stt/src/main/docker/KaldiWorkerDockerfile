@@ -1,0 +1,38 @@
+FROM debian:8
+
+ENV GST_PLUGIN_PATH /kaldi/src/gst-plugin
+
+RUN apt-get update && \
+apt-get install -y python \
+                   python-tornado \
+                   python-simplejson \
+                   python-yaml \
+                   python-pip \
+                   python-gi \
+                   git \
+                   zlib1g-dev \
+                   automake \
+                   autoconf \
+                   wget \
+                   libtool \
+                   subversion \
+                   libatlas3-base \
+                   libgstreamer1.0-dev \
+                   gstreamer1.0-plugins-good \
+                   gstreamer1.0-tools \
+                   gstreamer1.0-pulseaudio && \
+pip install ws4py==0.3.2 && \
+pip install tornado --upgrade && \
+git clone https://github.com/kaldi-asr/kaldi.git && \
+cd /kaldi && \
+git reset --hard 7c04d629104e86963e7d7d8c8fded67d5533d5ef && \
+cd /kaldi/tools && \
+make && \
+cd /kaldi/src && \
+./configure --shared && \
+make ext && \
+make depend && \
+make && \
+cd /kaldi/src/gst-plugin && \
+make depend && \
+make;

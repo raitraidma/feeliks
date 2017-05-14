@@ -20,9 +20,7 @@ services:
         condition: on-failure
 
   speech_to_text_master:
-    image: raitraidma/feeliks_speech_to_text_master:0.1
-    ports:
-      - 8888:8888
+    image: raitraidma/feeliks.stt.kaldi.master:0.1
     networks:
       - feeliks
     deploy:
@@ -31,9 +29,12 @@ services:
         condition: none
 
   speech_to_text_worker:
-    image: raitraidma/feeliks_speech_to_text_worker_et:0.1
+    image: raitraidma/feeliks.stt.kaldi.worker.et.female:0.1
     networks:
       - feeliks
+    environment:
+      - KALDI_MASTER_HOST=speech_to_text_master
+      - KALDI_MASTER_PORT=9000
     deploy:
       replicas: 1
       restart_policy:
@@ -41,14 +42,23 @@ services:
     depends_on:
       - speech_to_text_master
 
-  text_to_speech:
-    image: raitraidma/feeliks_text_to_speech_et_female:0.1
+  speech_to_text:
+    image: raitraidma/feeliks.stt:0.1
+    ports:
+      - 8888:9000
     networks:
       - feeliks
+    environment:
+      - SERVER_PORT=9000
+      - APP_ENGINE=kaldi
+      - APP_KALDI_HOST=speech_to_text_master
+      - APP_KALDI_PORT=9000
     deploy:
       replicas: 1
       restart_policy:
         condition: none
+    depends_on:
+      - speech_to_text_master
 
 networks:
   feeliks:

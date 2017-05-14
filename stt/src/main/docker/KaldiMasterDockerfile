@@ -1,0 +1,18 @@
+FROM debian:8
+
+EXPOSE 9000
+
+RUN apt-get update && \
+apt-get install -y python \
+                   python-tornado \
+                   python-simplejson \
+                   python-pip \
+                   python-gi \
+                   git && \
+pip install ws4py==0.3.2 && \
+pip install tornado --upgrade && \
+git clone https://github.com/alumae/kaldi-gstreamer-server.git && \
+cd /kaldi-gstreamer-server && \
+git reset --hard e4ffc4609e824e003114f75d1510522c3ff19368;
+
+CMD cd /kaldi-gstreamer-server && python kaldigstserver/master_server.py --port=9000
