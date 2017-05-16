@@ -1,6 +1,6 @@
 # Feeliks
 
-`environment/cert/private.key` and `environment/cert/public.key` are used to enable Ansible to connect to other machines - you can generate you own key pair.
+`environment/cert/private.key` and `environment/cert/public.key` are used to enable Ansible to connect to other machines - you can generate your own key pair.
 
 ## Prerequisites
 Install to your host machine:
