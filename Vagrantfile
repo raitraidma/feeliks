@@ -1,6 +1,6 @@
 nodes = [
   { :hostname => 'ansible', :ip => '172.16.66.10', :ram => 512, :ssh => 2210, :cpus => 1, :ports => {}},
-  { :hostname => 'node01',  :ip => '172.16.66.11', :ram => 8192, :ssh => 2211, :cpus => 4, :ports => {9000 => 9000, 8888=>8888}},
+  { :hostname => 'node01',  :ip => '172.16.66.11', :ram => 8192, :ssh => 2211, :cpus => 4, :ports => {9000 => 9000}},
   { :hostname => 'node02',  :ip => '172.16.66.12', :ram => 4096, :ssh => 2212, :cpus => 4, :ports => {}}
 ]
 
