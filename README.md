@@ -75,7 +75,7 @@ mvn clean package docker:build -pl stt -am
 ### STT (Speech To Text)
 Send wav file with recorded text and you receive a json representing that text.
 ```sh
-curl -T sentence_in_estonia.wav http://172.16.66.11:8880/batch
+curl -T sentence_in_estonian.wav http://172.16.66.11:8880/batch
 ```
 returns
 ```
