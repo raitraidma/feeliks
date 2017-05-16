@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>feeliks</artifactId>
+        <groupId>raitraidma</groupId>
+        <version>0.1</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>feeliks.tts</artifactId>
+    <packaging>jar</packaging>
+    <name>feeliks.tts</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <configuration>
+                    <images>
+                        <image>
+                            <name>${docker.account}/${project.artifactId}.festival:${project.version}</name>
+                            <build>
+                                <tags>
+                                    <tag>${project.version}</tag>
+                                    <tag>latest</tag>
+                                </tags>
+                                <dockerFileDir>${project.basedir}/src/main/docker</dockerFileDir>
+                                <dockerFile>FestivalDockerfile</dockerFile>
+                            </build>
+                        </image>
+                        <image>
+                            <name>${docker.account}/${project.artifactId}.festival.et.female:${project.version}</name>
+                            <build>
+                                <tags>
+                                    <tag>${project.version}</tag>
+                                    <tag>latest</tag>
+                                </tags>
+                                <dockerFileDir>${project.basedir}/src/main/docker</dockerFileDir>
+                                <dockerFile>FestivalEtFemaleDockerfile</dockerFile>
+                            </build>
+                        </image>
+                        <image>
+                            <name>${docker.account}/${project.artifactId}:${project.version}</name>
+                            <build>
+                                <from>${docker.account}/${project.artifactId}.festival.et.female:${project.version}</from>
+                                <tags>
+                                    <tag>${project.version}</tag>
+                                    <tag>latest</tag>
+                                </tags>
+                                <ports>
+                                    <port>9000</port>
+                                </ports>
+                                <assembly>
+                                    <basedir>/app</basedir>
+                                    <descriptorRef>artifact</descriptorRef>
+                                </assembly>
+                                <cmd>java -Djava.security.egd=file:/dev/./urandom -jar /app/${project.build.finalName}.jar</cmd>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -1,0 +1,28 @@
+FROM centos:7
+
+RUN yum -y group install "Development Tools" && \
+yum -y install wget ncurses-devel ncurses && \
+wget http://www.festvox.org/packed/festival/2.4/speech_tools-2.4-release.tar.gz && \
+wget http://www.festvox.org/packed/festival/2.4/festival-2.4-release.tar.gz && \
+wget http://www.festvox.org/packed/festival/2.4/festlex_CMU.tar.gz && \
+wget http://www.festvox.org/packed/festival/2.4/festlex_OALD.tar.gz && \
+wget http://www.festvox.org/packed/festival/2.4/festlex_POSLEX.tar.gz && \
+wget http://www.festvox.org/packed/festival/2.4/voices/festvox_kallpc16k.tar.gz && \
+wget http://www.festvox.org/packed/festival/2.4/voices/festvox_rablpc16k.tar.gz && \
+tar xvfz speech_tools-2.4-release.tar.gz && \
+tar xvfz festival-2.4-release.tar.gz && \
+tar xvfz festlex_CMU.tar.gz && \
+tar xvfz festlex_OALD.tar.gz && \
+tar xvfz festlex_POSLEX.tar.gz && \
+tar xvfz festvox_kallpc16k.tar.gz && \
+tar xvfz festvox_rablpc16k.tar.gz && \
+cd /speech_tools && \
+./configure && \
+make && \
+cd /festival && \
+./configure && \
+make && \
+mkdir /output && \
+echo "(Parameter.set 'Audio_Method 'Audio_Command)" > ~/.festivalrc && \
+echo "(Parameter.set 'Audio_Required_Format 'wav)" >> ~/.festivalrc && \
+echo "(Parameter.set 'Audio_Command \"rm -f /output/output.wav; mv \$FILE /output/output.wav\")" >> ~/.festivalrc;

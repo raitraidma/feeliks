@@ -1,0 +1,8 @@
+FROM raitraidma/feeliks.tts.festival:0.1
+
+ENV JAVA_HOME /usr/java/jdk1.8.0_102/
+
+RUN wget http://heli.eki.ee/festvox_eki_et_riina_clunits.tar.gz && \
+tar xvfz festvox_eki_et_riina_clunits.tar.gz && \
+wget --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u102-b14/jdk-8u102-linux-x64.rpm && \
+yum -y localinstall jdk-8u102-linux-x64.rpm;
