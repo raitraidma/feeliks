@@ -85,3 +85,11 @@ returns
 ### TTS (Text To Speech)
 Add text to `text` parameter. Service will return wav file. For example:
 `http://172.16.66.11:8881/?text=Tere Ärni. Mitu ööbikut sa õues üle lugesid`
+
+
+### Analyzer
+Analyzes text and tries to answer.
+
+`http://172.16.66.11:8882/?text=Mis kell on`
+
+`http://172.16.66.11:8882/?text=Mis on maatriks`

@@ -23,6 +23,7 @@
     <modules>
         <module>stt</module>
         <module>tts</module>
+        <module>analyzer</module>
     </modules>
 
     <dependencyManagement>

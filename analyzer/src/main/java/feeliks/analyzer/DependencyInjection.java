@@ -1,7 +1,8 @@
-package feeliks.stt;
+package feeliks.analyzer;
 
-import feeliks.stt.service.KaldiSpeechToTextService;
-import feeliks.stt.service.SpeechToTextService;
+import feeliks.analyzer.service.AnalyzerCollection;
+import feeliks.analyzer.service.analyzer.QuestionAnalyzer;
+import feeliks.analyzer.service.analyzer.TimeAnalyzer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -18,10 +19,10 @@ public class DependencyInjection {
     }
 
     @Bean
-    SpeechToTextService getSpeechToTextService() {
-        if (properties.isKaldiEngine()) {
-            return new KaldiSpeechToTextService(properties.getKaldi().getHost(), properties.getKaldi().getPort());
-        }
-        return null;
+    AnalyzerCollection getAnalyzerCollection() {
+        AnalyzerCollection analyzerCollection = new AnalyzerCollection();
+        analyzerCollection.addAnalyzer(new TimeAnalyzer(10, properties));
+        analyzerCollection.addAnalyzer(new QuestionAnalyzer(20, properties));
+        return analyzerCollection;
     }
 }

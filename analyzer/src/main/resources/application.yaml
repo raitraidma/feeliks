@@ -1,0 +1,6 @@
+server:
+  port: ${SERVER_PORT:9000}
+logging:
+  file: feeliks/analyzer/log.log
+app:
+  wikiUrl: ${WIKI_URL:https://et.wikipedia.org/w/api.php?action=query&export&format=json&titles=}
