@@ -73,6 +73,9 @@ public class QuestionAnalyzer extends Analyzer {
             String text = (String) expr.evaluate(document, XPathConstants.STRING);
             text = stripWikiTags(text);
             firstSentence = text.split("\\. ")[0];
+            if (firstSentence.isEmpty()) {
+                firstSentence = "Sõnasta küsimus ümber";
+            }
         } catch (ParserConfigurationException | IOException | SAXException | XPathExpressionException e) {
             logger.warn(e.getMessage(), e);
         }
